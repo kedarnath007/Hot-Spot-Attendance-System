@@ -124,7 +124,6 @@ namespace WebApplication1
             {
                 TextBox2.Text = dr.GetValue(0).ToString();
             }
-            
         }
     }
 }
