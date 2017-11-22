@@ -7,6 +7,7 @@ using System.Web.UI.WebControls;
 using System.Configuration;
 using System.Data.SqlClient;
 using System.Data;
+using System.Net.Mail;
 
 namespace WebApplication1
 {
@@ -39,5 +40,5 @@ namespace WebApplication1
                     Label3.Visible = true;
         }
 
-    }
+  }
 }

@@ -39,7 +39,9 @@ namespace WebApplication1
                     button.Click += new EventHandler(button_Click);
                     button.Attributes["CourseID"] = dr["CourseID"].ToString();
                     button.Attributes["SubID"] = dr["SubID"].ToString();
+                    
                     Panel2.Controls.Add(button);
+                    
                 }
             }
             else

@@ -19,7 +19,7 @@ namespace WebApplication1
                 SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["as"].ConnectionString);
                 SqlCommand cmd = new SqlCommand();
                 cmd.CommandType = CommandType.StoredProcedure;
-                cmd.CommandText = "dbo.sp_fetchcourses";
+                cmd.CommandText = "sp_fetchcourses";
                 cmd.Connection = con;
                 con.Open();
                 DropDownList1.DataSource = cmd.ExecuteReader();
@@ -67,14 +67,8 @@ namespace WebApplication1
             String[] course = course_details.Split(',');
             professor_id = DropDownList2.SelectedValue.ToString();
             student_id = TextBox1.Text.ToString();
-            if(DropDownList2.SelectedIndex<0|| student_id==""|| DropDownList1.SelectedIndex<0)
-            {
-                Label7.Visible = true;
-                return;
-            }
             SqlConnection con = new SqlConnection(ConfigurationManager.ConnectionStrings["as"].ConnectionString);
             SqlCommand cmd = new SqlCommand();
-            SqlCommand cmd2 = new SqlCommand();
             cmd.CommandType = CommandType.StoredProcedure;
             cmd.CommandText = "sp_registerAttendence";
             cmd.Connection = con;
@@ -83,29 +77,13 @@ namespace WebApplication1
             cmd.Parameters.AddWithValue("@sub_id", course[1]);
             cmd.Parameters.AddWithValue("@professor_id", professor_id);
             cmd.Parameters.AddWithValue("@date", date);
-            cmd2.CommandType = CommandType.StoredProcedure;
-            cmd2.CommandText = "sp_checkAttendance";
-            cmd2.Connection = con;
-            cmd2.Parameters.AddWithValue("@student_id", student_id);
-            cmd2.Parameters.AddWithValue("@course_id", course[0]);
-            cmd2.Parameters.AddWithValue("@sub_id", course[1]);
-            cmd2.Parameters.AddWithValue("@date", date);
             con.Open();
-            int m=(int)cmd2.ExecuteScalar();
-            if (m<=0)
+            int n=cmd.ExecuteNonQuery();
+            if (n>0)
             {
-                int n = cmd.ExecuteNonQuery();
-                con.Close();
-                if (n > 0)
-                {
-                    Response.Redirect("ThankYou.aspx");
-                }
+                Response.Redirect("ThankYou.aspx");
             }
-            else
-            {
-                Label6.Visible = true;
-            }
-            
+            con.Close();
 
         }
 
@@ -124,6 +102,7 @@ namespace WebApplication1
             {
                 TextBox2.Text = dr.GetValue(0).ToString();
             }
+            
         }
     }
 }
